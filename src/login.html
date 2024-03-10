@@ -6,18 +6,14 @@
     <link href="./output.css" rel="stylesheet">
     <title>ورود</title>
 </head>
-<body class="font-[yekan]">
-    <div class="gap-5 mt-24 rounded-lg md:border md:border-gray-600 md:py-10 md:px-20 sm:w-fit md:w-fit lg:w-fit mx-auto flex flex-col items-center justify-center">
+<body class="font-[yekan] md:flex md:items-center md:h-screen">
+    <div dir="rtl" class="gap-5 rounded-xl mt-16 md:-mt-60 md:shadow-md md:py-10 md:px-20 sm:w-fit md:w-fit lg:w-fit mx-auto flex flex-col items-center justify-center">
         <p class="text-2xl pb-10">به حساب کاربری خود وارد شوید</p>
-        <label class="w-full flex flex-col justify-center items-center gap-3">
-            <p>ایمیل خود را وارد کنید</p>
-            <input type="text" class="input input-bordered input-md w-full max-w-xs" />
-        </label>
-        <label class="w-full flex flex-col justify-center items-center gap-3">
-            <p>رمز عبور خود را وارد کنید</p>
-            <input type="text" class="input input-bordered input-md w-full max-w-xs" />
-        </label>
+        <input placeholder="ایمیل خود را وارد کنید" type="text" class="input input-bordered input-md w-full max-w-xs" />
+        <input placeholder="رمز عبور خود را وارد کنید" type="text" class="input input-bordered input-md w-full max-w-xs" />
         <button class="btn btn-primary w-32">وارد شوید</button>
+        <div class="divider hidden md:flex">یا</div>
+        <button class="btn btn-neutral">ورود با گوگل</button>
     </div>
 </body>
 </html>
