@@ -13,13 +13,13 @@
     <ul id="sidebar" class="menu bg-base-300 h-screen w-64 md:w-72 fixed hidden">
         <li class="mr-1 font-bold text-xl py-5">داشبورد</li>
 
-        <li class="text-lg rounded-lg bg-neutral text-white"><a href="./"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+        <li class="text-lg"><a href="./"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
             خانه</a></li>
         <li class="text-lg"><a href="./newtask.html"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             تسک جدید</a></li>
         <li class="text-lg"><a href="./prevtasks.html"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
             تسک های قبلی</a></li>
-        <li class="text-lg"><a href="./time.html"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <li class="text-lg rounded-lg bg-neutral text-white"><a href="./time.html"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             زمان و حضور در جلسات</a></li>
         <li class="text-lg"><a href="./pricing.html"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
             خرید اشتراک</a></li>
@@ -49,8 +49,53 @@
         </div>
 
         <!-- Content -->
-        <div dir="rtl" id="content" class="md:px-12 px-3 w-[100%] pt-28 flex md:flex flex-wrap items-start md:justify-start justify-center gap-12 max-w-[85]rem">
-            
+        <div dir="rtl" id="content" class="md:px-12 px-3 w-[100%] pt-28 flex md:flex flex-col items-start md:justify-start justify-center gap-12 max-w-[85]rem">
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body gap-4">
+                    <h2 class="card-title">زمان جلسات</h2>
+                    <p>جلسه فنی: یکشنبه ها ساعت 7</p>
+                    <p>جلسه متا: چهارشنبه ها ساعت 8</p>
+                    <p>با شرکت به موقع در جلسات میتوانید 5 امتیاز دریافت کنید.</p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto w-full">
+                <p class="pb-6 card-title">حضور و غیاب جلسات اخیر</p>
+                <table class="table table-zebra w-full md:w-[30rem] max-w-[30rem] border border-base-200">
+                    <!-- head -->
+                    <thead  class="text-base">
+                        <tr>
+                        <th></th>
+                        <th>جلسه</th>
+                        <th>تاریخ</th>
+                        <th>حاضر/غایب</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-base">
+                        <!-- row 1 -->
+                        <tr>
+                            <th>1</th>
+                            <td>فنی</td>
+                            <td>14/1/1403</td>
+                            <td>غایب</td>
+                        </tr>
+                        <!-- row 2 -->
+                        <tr>
+                            <th>2</th>
+                            <td>متا</td>
+                            <td>14/1/1403</td>
+                        <td>حاضر</td>
+                        </tr>
+                        <!-- row 3 -->
+                        <tr>
+                        <th>3</th>
+                            <td>فنی</td>
+                            <td>14/1/1403</td>
+                            <td>حاضر</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>
