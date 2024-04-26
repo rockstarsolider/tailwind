@@ -24,7 +24,6 @@ function toggleChange() {
         header.classList.add("md:w-[calc(100%-18rem)]")
         toggleStatus = true
     }
-    console.log(toggleStatus)
 }
 
 document.addEventListener('DOMContentLoaded', function () {
