@@ -116,8 +116,9 @@
     </div>
 </body>
 <script type="module">
-    import {checkApi} from '../api.js'
-    const access = checkApi()
+    import {checkApi,getAccessCookie} from '../api.js'
+    checkApi()
+    const access = getAccessCookie()
 
     const url = 'http://127.0.0.1:8000/auth/users/me/'
     fetch(url, {
@@ -134,7 +135,7 @@
             throw new Error('Network response was not ok.');
         })
         .then(data => {
-            document.getElementById("nameLoc").innerText = data.username
+            document.getElementById("nameLoc").innerText = data.first_name
         })
         .catch(error => {
             console.error('Error:', error);

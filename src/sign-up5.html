@@ -14,18 +14,54 @@
         <li class="step step-primary">نحوه آشنایی</li>
         <li class="step step-primary">ثبت نام</li>
     </ul>
-    <div dir="rtl" class="gap-5 mt-24 md:shadow-md rounded-xl md:py-10 md:px-20 sm:w-fit md:w-fit lg:w-fit mx-auto flex flex-col items-center justify-center">
+    <form id="form" dir="rtl" class="gap-5 mt-24 md:shadow-md rounded-xl md:py-10 md:px-20 sm:w-fit md:w-fit lg:w-fit mx-auto flex flex-col items-center justify-center">
         <p class="text-2xl pb-10">حساب کاربری جدید بسازید</p>
-        <input placeholder="ایمیل" type="text" class="input input-bordered input-md w-full max-w-xs" />
-        <input placeholder="رمز ورود" type="text" class="input input-bordered input-md w-full max-w-xs" />
-        <input placeholder="تکرار رمز عبور" type="text" class="input input-bordered input-md w-full max-w-xs" />
+        <input type="email" id="email" name="email" placeholder="ایمیل" class="input input-bordered input-md w-full max-w-xs" />
+        <input type="password" id="password" name="password" placeholder="رمز ورود" class="input input-bordered input-md w-full max-w-xs" />
+        <input type="password" id="password2" name="password2" placeholder="تکرار رمز عبور" class="input input-bordered input-md w-full max-w-xs" />
         <div class="flex items-center justify-center gap-2">
             <input type="checkbox" class="checkbox-primary checkbox"/>
             دریافت جدیدترین بروزرسانی ها
         </div>
-        <button class="btn btn-primary w-32">ثبت نام</button>
+        <button type="submit" class="btn btn-primary w-32">ثبت نام</button>
         <div class="divider hidden md:flex">یا</div>
         <button class="btn btn-neutral">ورود با گوگل</button>
-    </div>
+    </form>
 </body>
+
+<script>
+    var url = "http://127.0.0.1:8000/auth/users/"
+
+    const form = document.getElementById('form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault()
+        
+        const formData = new FormData(form);
+        const formDataObject = Object.fromEntries(formData.entries());
+        const formToSend = {email:formDataObject.email, password:formDataObject.password}
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formToSend)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            console.log(data)
+            window.location.replace("/src/login.html");
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+    }
+)
+</script>
 </html>

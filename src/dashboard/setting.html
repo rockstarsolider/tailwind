@@ -43,7 +43,7 @@
                     <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                     <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
                 </label>
-                <p class="text-lg font-bold">محمد انصاری </p>
+                <p id="nameLoc" class="text-lg font-bold"></p>
                 <p class="text-lg font-bold">امتیاز: 18</p>
             </div>
         </div>
@@ -51,17 +51,19 @@
         <!-- Content -->
         <div dir="rtl" id="content" class="md:px-12 px-3 w-[100%] pt-28 flex md:flex flex-col items-start md:justify-start justify-center gap-6 max-w-[85]rem">
             <p class="card-title">تکمیل یا تغییر حساب کاربری</p>
-            <input dir="rtl" type="text" placeholder="نام" class="input input-bordered w-full max-w-xs" />
-            <input dir="rtl" type="text" placeholder="نام خانوادگی" class="input input-bordered w-full max-w-xs" />
-            <input dir="rtl" type="text" placeholder="ایمیل" class="input input-bordered w-full max-w-xs" />
-            <input dir="rtl" type="text" placeholder="سن" class="input input-bordered w-full max-w-xs" />
-            <select class="select select-bordered w-full max-w-xs text-base">
-                <option disabled selected>انتخاب شهر</option>
-                <option>تهران</option>
-                <option>شیراز</option>
-                <option>مشهد</option>
-            </select>
-            <button class="btn btn-neutral mb-5">ثبت تغییرات</button>
+            <form id="form" class=" w-[100%] flex md:flex flex-col items-start md:justify-start justify-center gap-6">
+                <input dir="rtl" id="first_name" name="first_name" type="text" placeholder="نام" class="input input-bordered w-full max-w-xs" />
+                <input dir="rtl" id="last_name" name="last_name" type="text" placeholder="نام خانوادگی" class="input input-bordered w-full max-w-xs" />
+                <input dir="rtl" id="email" name="email" type="email" placeholder="ایمیل" class="input input-bordered w-full max-w-xs" />
+                <input dir="rtl" id="age" name="age" type="number" placeholder="سن" class="input input-bordered w-full max-w-xs" />
+                <select name="province" class="select select-bordered w-full max-w-xs text-base">
+                    <option disabled selected>انتخاب شهر</option>
+                    <option>تهران</option>
+                    <option>شیراز</option>
+                    <option>مشهد</option>
+                </select>
+                <button type="submit" class="btn btn-neutral mb-5">ثبت تغییرات</button>
+            </form>
 
             <p class="card-title mt-5">تغییر تم</p>
             <label class="flex cursor-pointer gap-2">
@@ -91,13 +93,108 @@
             </div>
 
             <p class="card-title mt-10">تغییر رمز ورود</p>
-            <input type="password" class="input input-bordered w-full max-w-xs" placeholder="رمز قبلی" />
-            <input type="password" class="input input-bordered w-full max-w-xs" placeholder="رمز جدید" />
-            <input type="password" class="input input-bordered w-full max-w-xs" placeholder="تکرار رمز جدید" />
-            <button class="btn btn-neutral">تغییر رمز</button>
+            <form id="passwordForm" class="w-[100%] flex md:flex flex-col items-start md:justify-start justify-center gap-6">
+                <input type="password" name="current_password" id="current_password" class="input input-bordered w-full max-w-xs" placeholder="رمز قبلی" />
+                <input type="password" class="input input-bordered w-full max-w-xs" placeholder="رمز جدید" />
+                <input type="password" name="new_password" id="new_password" class="input input-bordered w-full max-w-xs" placeholder="تکرار رمز جدید" />
+                <button type="submit" class="btn btn-neutral">تغییر رمز</button>
+            </form>
 
             <a href="../index.html"><button class="btn btn-error text-white mb-5 mt-10">خروج از حساب کاربری</button></a>
         </div>
     </div>
 </body>
+
+<script type="module">
+    import {checkApi,getAccessCookie} from '../api.js'
+    checkApi()
+    const access = getAccessCookie()
+    const url = 'http://127.0.0.1:8000/auth/users/me/'
+    const form = document.getElementById('form');
+    
+    fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+access
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            form.first_name.value = data.first_name
+            form.last_name.value = data.last_name
+            form.email.value = data.email
+            form.age.value = data.extra.age
+            form.province.value = data.extra.province
+            document.getElementById("nameLoc").innerText = data.first_name
+        })
+        .catch(error => {
+            console.error('Error:', error);
+    });
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault()
+        
+        const formData = new FormData(form);
+        const formDataObject = Object.fromEntries(formData.entries());
+        const formToSend = {email:formDataObject.email, first_name:formDataObject.first_name, last_name:formDataObject.last_name, }
+
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+ access,
+            },
+            body: JSON.stringify(formToSend)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+    })
+
+    const passwordForm = document.getElementById('passwordForm');
+    passwordForm.addEventListener('submit', function(event) {
+        
+        
+        const Data = new FormData(passwordForm);
+        const DataObject = Object.fromEntries(Data.entries());
+        console.log(DataObject)
+
+        const passurl = 'http://127.0.0.1:8000/auth/users/set_password/'
+        fetch(passurl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+ access
+            },
+            body: JSON.stringify(DataObject)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+    })
+</script>
 </html>

@@ -9,7 +9,7 @@
 <body class="font-[yekan] md:flex md:items-center md:h-screen">
     <form id="form" dir="rtl" class="gap-5 rounded-xl mt-16 md:-mt-60 md:shadow-md md:py-10 md:px-20 sm:w-fit md:w-fit lg:w-fit mx-auto flex flex-col items-center justify-center">
         <p class="text-2xl pb-10">به حساب کاربری خود وارد شوید</p>
-        <input type="text" id="username" name="username" placeholder="ایمیل خود را وارد کنید"  class="input input-bordered input-md w-full max-w-xs" />
+        <input type="email" id="email" name="username" placeholder="ایمیل خود را وارد کنید"  class="input input-bordered input-md w-full max-w-xs" />
         <input type="password" id="password" name="password" placeholder="رمز عبور خود را وارد کنید" class="input input-bordered input-md w-full max-w-xs" />
         <button type="submit" class="btn btn-primary w-32">وارد شوید</button>
         <div class="divider hidden md:flex">یا</div>
@@ -46,6 +46,8 @@
 
             document.cookie = "accessToken="+data.access;
             document.cookie = "refreshToken="+data.refresh+"; expires="+date.toUTCString();
+
+            window.location.replace("/src/dashboard");
         })
         .catch(error => {
             console.error('Error:', error);
