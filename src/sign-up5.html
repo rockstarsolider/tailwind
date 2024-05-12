@@ -30,6 +30,29 @@
 </body>
 
 <script>
+    function getProvince() {
+        const name = "province=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i].trim();
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+    }
+
+    function getIntro() {
+        const name = "intro_method=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i].trim();
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+    }
     var url = "http://127.0.0.1:8000/auth/users/"
 
     const form = document.getElementById('form');
@@ -39,7 +62,8 @@
         
         const formData = new FormData(form);
         const formDataObject = Object.fromEntries(formData.entries());
-        const formToSend = {email:formDataObject.email, password:formDataObject.password}
+        console.log(getIntro())
+        const formToSend = {username:formDataObject.email,email:formDataObject.email, password:formDataObject.password, province:getProvince(), intro_method:getIntro()}
         
         fetch(url, {
             method: 'POST',

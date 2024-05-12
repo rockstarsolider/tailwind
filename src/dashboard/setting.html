@@ -129,8 +129,8 @@
             form.first_name.value = data.first_name
             form.last_name.value = data.last_name
             form.email.value = data.email
-            form.age.value = data.extra.age
-            form.province.value = data.extra.province
+            form.age.value = data.age
+            form.province.value = data.province
             document.getElementById("nameLoc").innerText = data.first_name
         })
         .catch(error => {
@@ -150,7 +150,7 @@
                 'Content-Type': 'application/json',
                 'Authorization':'JWT '+ access,
             },
-            body: JSON.stringify(formToSend)
+            body: JSON.stringify(formDataObject)
         })
         .then(response => {
             if (response.ok) {

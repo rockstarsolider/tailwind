@@ -16,14 +16,25 @@
     </ul>
     <div class="flex items-center justify-center lg:w-[35%] md:w-[50%] md:mt-32 gap-10 w-[90%] mx-auto mt-16 flex-col">
         <p class="text-xl">در چه استانی زندگی میکنید؟</p>
-        <div class="grid grid-cols-2 gap-5">
-            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">تهران</button>
-            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">فارس</button>
-            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">اصفهان</button>
-            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">اهواز</button>
-            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">هرمزگان</button>
-        </div>
-        <a href="./sign-up4.html" class="btn btn-primary">ادامه</a>
+        <form id="form" class="flex flex-col gap-5">
+            <div><input type="radio" value="شیراز" id="1" name="province" class=""></input>
+            <label for="1">شیراز</label></div>
+            <div><input type="radio" value="تهران" id="2" name="province" class=""></input>
+            <label for="2">تهران</label></div>
+            <div><input type="radio" value="مشهد" id="3" name="province" class=""></input>
+            <label for="3">مشهد</label></div>
+            <button type="submit" class="btn btn-primary">ادامه</a>
+        </form>
     </div>
 </body>
+<script type="module">
+    const form = document.getElementById('form')
+    form.addEventListener('submit', function(event) {
+        event.preventDefault()
+        const formData = new FormData(form);
+        const formDataObject = Object.fromEntries(formData.entries());
+        document.cookie = "province="+formDataObject.province;
+        window.location.replace("/src/sign-up4.html");
+    })
+</script>
 </html>

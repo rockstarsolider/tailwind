@@ -43,55 +43,60 @@
                     <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                     <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
                 </label>
-                <p class="text-lg font-bold">محمد انصاری </p>
+                <p id="headname" class="text-lg font-bold"></p>
                 <p class="text-lg font-bold">امتیاز: 18</p>
             </div>
         </div>
 
         <!-- Content -->
         <div dir="rtl" id="content" class="md:px-12 px-3 w-[100%] pt-28 flex md:flex flex-wrap items-start md:justify-start justify-center gap-12 max-w-[85]rem">
-            <div class="join join-vertical w-96 md:w-[30rem]">
-                <div class="collapse collapse-arrow join-item border border-base-300">
-                    <input type="radio" name="my-accordion-4" /> 
-                    <div class="collapse-title text-xl font-medium">
-                        تسک شماره 1
-                    </div>
-                    <div class="collapse-content"> 
-                        <p class="card-title mb-4">آشنایی با مقدمات backEnd</p>
-                        <p class="mb-2">تاریخ: 14/1/1403</p>
-                        <p class="mb-4">ویدیو آشنایی با بک اند را ببینید و پروژه تمرینی را انجام دهید</p>
-                        <button class="btn btn-primary mb-2">لینک دوره</button>
-                    </div>
-                </div>
-
-                <div class="collapse collapse-arrow join-item border border-base-300">
-                    <input type="radio" name="my-accordion-4" /> 
-                    <div class="collapse-title text-xl font-medium">
-                        تسک شماره 2
-                    </div>
-                    <div class="collapse-content"> 
-                        <p class="card-title mb-4">آشنایی با مقدمات backEnd</p>
-                        <p class="mb-2">تاریخ: 14/1/1403</p>
-                        <p class="mb-4">ویدیو آشنایی با بک اند را ببینید و پروژه تمرینی را انجام دهید</p>
-                        <button class="btn btn-primary mb-2">لینک دوره</button>
-                    </div>
-                </div>
-
-                <div class="collapse collapse-arrow join-item border border-base-300">
-                    <input type="radio" name="my-accordion-4" /> 
-                    <div class="collapse-title text-xl font-medium">
-                        تسک شماره 3
-                    </div>
-                    <div class="collapse-content"> 
-                        <p class="card-title mb-4">آشنایی با مقدمات backEnd</p>
-                        <p class="mb-2">تاریخ: 14/1/1403</p>
-                        <p class="mb-4">ویدیو آشنایی با بک اند را ببینید و پروژه تمرینی را انجام دهید</p>
-                        <button class="btn btn-primary mb-2">لینک دوره</button>
-                    </div>
-                </div>
-
+            <div id="tasksdiv" class="join join-vertical w-96 md:w-[30rem]">
+                
             </div>
         </div>
     </div>
 </body>
+<script type="module">
+    import {checkApi,getAccessCookie} from '../api.js'
+    checkApi()
+    const access = getAccessCookie()
+    const url = 'http://127.0.0.1:8000/tasks/user_tasks/'
+    
+    fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+access
+            },
+        })
+        .then(response => response.json())
+        .then(data => renderTasks(data))
+        .catch(error => console.error('Error:', error));
+
+    function renderTasks(data){
+        const base ='<input type="radio" name="my-accordion-4" /> \
+                    <div class="collapse-title text-xl font-medium"> </div> \
+                    <div class="collapse-content">  \
+                        <p class="card-title mb-4"></p> \
+                        <p class="mb-2"></p> \
+                        <p class="mb-4"></p> \
+                        <button class="btn btn-primary mb-2">لینک دوره</button> \
+                    </div>'
+        for(const q of data){
+            const tasksDiv = document.getElementById('tasksdiv')
+            
+            const div = document.createElement('div')
+            div.className = 'collapse collapse-arrow join-item border border-base-300'
+            div.innerHTML = base
+            console.log(q)
+            div.getElementsByTagName('div')[0].innerHTML = q.title
+            div.getElementsByTagName('div')[1].getElementsByTagName('p')[0].innerHTML = q.description
+            div.getElementsByTagName('div')[1].getElementsByTagName('p')[1].innerHTML = q.created_at
+            const completed = q.completed?'تکمیل شده':'تکمیل نشده'
+            div.getElementsByTagName('div')[1].getElementsByTagName('p')[2].innerHTML = completed
+            
+            tasksDiv.append(div)
+        }
+    }
+</script>
 </html>
