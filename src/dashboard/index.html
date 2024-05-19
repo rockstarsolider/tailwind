@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html id="html" lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,6 +115,24 @@
         </div>
     </div>
 </body>
+<script type="module">
+    function getDark() {
+        const name = "darkMode=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i].trim();
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+    }
+
+    if (getDark() == 'true'){
+        const html = document.getElementById("html")
+        html.setAttribute('data-theme', 'dark')
+    }
+</script>
 <script type="module">
     import {checkApi,getAccessCookie} from '../api.js'
     checkApi()
