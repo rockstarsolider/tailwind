@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title>ثبت نام</title>
+</head>
+<body class="font-[yekan] flex flex-col justify-center items-center" dir="rtl">
+    <ul id="steps" class="steps mt-5 md:w-4/5">
+        <li class="step step-primary">شروع</li>
+        <li class="step ">انتخاب درس</li>
+        <li class="step">انتخاب شهر</li>
+        <li class="step">نحوه آشنایی</li>
+        <li class="step">ثبت نام</li>
+    </ul>
+
+    <div id="page1" class="flex aaa items-center justify-center gap-10 lg:w-[35%] md:w-[50%] md:mt-32 w-[90%] mx-auto mt-16 flex-col">
+        <p class="text-2xl text-center">ماجراجویی خود را در دنیای یادگیری مایند دو شروع کنید</p>
+        <p class="text-lg">برای تجربه بهتر شما از مایند دو لطفا به سوالات کوتاه ما پاسخ دهید تا بهترین تجربه را برایتان آماده کنیم. سپس میتوانید با خیال راحت به ماجراجویی خود ادامه دهید و لذت ببرید.</p>
+        <button class="btn btn-primary">ادامه</button>
+    </div>
+
+    <div id="page2" class="hidden aaa items-center justify-center lg:w-[35%] md:w-[50%] md:mt-32 gap-10 w-[90%] mx-auto mt-16 flex-col">
+        <p class="text-xl">درسی را که میخواهید انتخاب کنید</p>
+        <div class="grid grid-cols-2 gap-5">
+            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">برنامه نویسی وب</button>
+            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">گرافیک </button>
+            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">هوش مصنوعی </button>
+            <button class="btn btn-neutral focus:btn-primary w-36 focus:text-white">بازی سازی</button>
+        </div>
+        <button class="btn btn-primary">ادامه</button>
+    </div>
+
+    <div id="page3" class="hidden aaa items-center justify-center lg:w-[35%] md:w-[50%] md:mt-32 gap-10 w-[90%] mx-auto mt-16 flex-col">
+        <p class="text-xl">در چه استانی زندگی میکنید؟</p>
+        <form class="flex flex-col gap-5">
+            <div><input type="radio" value="شیراز" id="p1" name="province" class=""></input>
+            <label for="1">شیراز</label></div>
+            <div><input type="radio" value="تهران" id="p2" name="province" class=""></input>
+            <label for="2">تهران</label></div>
+            <div><input type="radio" value="مشهد" id="p3" name="province" class=""></input>
+            <label for="3">مشهد</label></div>
+            <button type="submit" class="btn btn-primary">ادامه</a>
+        </form>
+    </div>
+
+    <div id="page4" class="hidden aaa items-center justify-center lg:w-[35%] md:w-[50%] md:mt-32 gap-10 w-[90%] mx-auto mt-16 flex-col">
+        <p class="text-xl">در چه استانی زندگی میکنید؟</p>
+        <form class="flex flex-col gap-5">
+            <div><input type="radio" value="friends" id="i1" name="intro_method" class=""></input>
+            <label for="1">دوستان</label></div>
+            <div><input type="radio" value="social media" id="i2" name="intro_method" class=""></input>
+            <label for="2">شبکه اجتماعی</label></div>
+            <div><input type="radio" value="google" id="i3" name="intro_method" class=""></input>
+            <label for="3">گوگل</label></div>
+            <button type="submit" class="btn btn-primary">ادامه</a>
+        </form>
+    </div>
+
+    <form id="form" dir="rtl" class="gap-5 aaa mt-24 md:shadow-md rounded-xl md:py-10 md:px-20 sm:w-fit md:w-fit lg:w-fit mx-auto hidden flex-col items-center justify-center">
+        <p class="text-2xl pb-10">حساب کاربری جدید بسازید</p>
+        <input type="email" id="email" name="email" placeholder="ایمیل" class="input input-bordered input-md w-full max-w-xs" />
+        <input type="password" id="password" name="password" placeholder="رمز ورود" class="input input-bordered input-md w-full max-w-xs" />
+        <input type="password" id="password2" name="password2" placeholder="تکرار رمز عبور" class="input input-bordered input-md w-full max-w-xs" />
+        <div class="flex items-center justify-center gap-2">
+            <input type="checkbox" class="checkbox-primary checkbox"/>
+            دریافت جدیدترین بروزرسانی ها
+        </div>
+        <button type="submit" class="btn btn-primary w-32">ثبت نام</button>
+        <div class="divider hidden md:flex">یا</div>
+        <button class="btn btn-neutral">ورود با گوگل</button>
+    </form>
+
+    <script src="./sign-up.js"></script>
+</body>
+</html>
