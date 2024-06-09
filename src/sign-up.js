@@ -5,6 +5,7 @@ const page2 = document.getElementById("page2")
 const page3 = document.getElementById("page3")
 const page4 = document.getElementById("page4")
 const form = document.getElementById("form")
+const back = document.getElementById("back")
 
 var counter = 1
 
@@ -86,4 +87,19 @@ form.addEventListener('submit', function(event) {
     .catch(error => {
         console.error('Error:', error);
     })
+})
+
+back.addEventListener('click',function(event) {
+    event.preventDefault()
+    if (counter === 2 ){
+        hideFunc( page1, page2)
+    } else if (counter === 3 ){
+        hideFunc( page2, page3)
+    } else if (counter === 4 ){
+        hideFunc( page3, page4)
+    } else if (counter === 5 ){
+        hideFunc( page4, form)
+    }
+    counter === 1?counter = 1:steps.getElementsByTagName('li')[counter-1].className='step'
+    counter -= 1
 })
