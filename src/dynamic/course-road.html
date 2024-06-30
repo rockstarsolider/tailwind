@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../output.css" rel="stylesheet">
+    <title>درس ها</title>
+</head>
+<body class="font-[yekan] flex flex-col justify-center items-center " dir="rtl">
+    <div dir="ltr" class="md:px-28 lg:px-[10%] shadow-lg w-[100%] p-3 h-16 z-30 flex justify-between items-center">
+        <a href="../index.html"><img src="/media/logo.png" class="w-32"/></a>
+        <div class="justify-center items-center hidden md:flex gap-10">
+        <a href="./static pages/about.html" class="font-bold">درباره ما</a>
+        <a href="./static pages/courses.html" class="font-bold">دوره ها</a>
+        <a href="./static pages/contact-us.html" class="font-bold">تماس با ما</a>
+        </div>
+        <div class="gap-4 flex">
+            <a href="/src/sign-up.html"  class="btn btn-primary">شروع کنید</a>
+            <a href="/src/login.html" class="btn btn-neutral">ورود</a>
+        </div>
+    </div>
+
+    <div class="flex md:justify-between justify-center items-start md:items-center flex-col md:flex-row w-[100%] my-12 px-14 lg:px-[20%] gap-12">
+        <div class="border-r pr-5 border-gray-300">
+            <div onclick="my_modal_3.showModal()" class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download.png"/><p>تحلیل داده</p></div>
+            <div onclick="my_modal_3.showModal()" class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download.png"/><p>دسته بندی داده</p></div>
+            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
+            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
+            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
+            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
+            <dialog id="my_modal_3" class="modal">
+                <div class="modal-box">
+                  <h3 class="text-lg font-bold">تحلیل داده</h3>
+                  <p class="py-4">در این درس نحوه تحلیل کردن داده را یاد می گیرید</p>
+                  <a href="./course.html" class="btn btn-neutral">شروع درس</a>
+                </div>
+                <form method="dialog" class="modal-backdrop">
+                  <button>close</button>
+                </form>
+            </dialog>
+        </div>
+        <div class="border border-gray-300 rounded-lg p-10 md:fixed top-60 left-60 flex flex-col items-center">
+            <img src="/media/dynamic/computer-science-essentials-p1VhGo.png" width="80px"/>
+            <h3 class="text-lg font-bold p-10">علوم کامپیوتر</h3>
+            <p class="py-4">در این درس مهارت های خود را در قسمت داده بالا می برید</p>
+        </div>
+    </div>
+
+    <script src="./course-road.js"></script>
+</body>
+</html>

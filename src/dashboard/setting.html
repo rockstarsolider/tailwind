@@ -51,17 +51,21 @@
         <!-- Content -->
         <div dir="rtl" id="content" class="md:px-12 px-3 w-[100%] pt-28 flex md:flex flex-col items-start md:justify-start justify-center gap-6 max-w-[85]rem">
             <p class="card-title">تکمیل یا تغییر حساب کاربری</p>
-            <form id="form" class=" w-[100%] flex md:flex flex-col items-start md:justify-start justify-center gap-6">
+            <form  id="form" class=" w-[100%] flex md:flex flex-col items-start md:justify-start justify-center gap-6">
                 <input dir="rtl" id="first_name" name="first_name" type="text" placeholder="نام" class="input input-bordered w-full max-w-xs" />
                 <input dir="rtl" id="last_name" name="last_name" type="text" placeholder="نام خانوادگی" class="input input-bordered w-full max-w-xs" />
                 <input dir="rtl" id="email" name="email" type="email" placeholder="ایمیل" class="input input-bordered w-full max-w-xs" />
-                <input dir="rtl" id="age" name="age" type="number" placeholder="سن" class="input input-bordered w-full max-w-xs" />
-                <select name="province" class="select select-bordered w-full max-w-xs text-base">
+                <input dir="rtl" id="phone_number" name="phone_number" type="tel" placeholder="شماره تلفن" class="input input-bordered w-full max-w-xs" />
+                <select name="city" class="select select-bordered w-full max-w-xs text-base">
                     <option disabled selected>انتخاب شهر</option>
                     <option>تهران</option>
                     <option>شیراز</option>
                     <option>مشهد</option>
                 </select>
+                <input dir="rtl" name="mother_phone_number" type="tel" placeholder="تلفن مادر" class="input input-bordered w-full max-w-xs" />
+                <input dir="rtl" name="father_phone_number" type="tel" placeholder="تلفن پدر" class="input input-bordered w-full max-w-xs" />
+                <input dir="rtl" name="home_phone_number" type="tel" placeholder="تلفن منزل" class="input input-bordered w-full max-w-xs" />
+                <input dir="rtl" name="interets" type="text" placeholder="علایق" class="input input-bordered w-full max-w-xs"></input>
                 <button type="submit" class="btn btn-neutral mb-5">ثبت تغییرات</button>
             </form>
 
@@ -145,27 +149,27 @@
     const access = getAccessCookie()
     const url = 'http://127.0.0.1:8000/auth/users/me/'
     const form = document.getElementById('form');
+    var studentID = null
     
-    fetch(url, {
+    fetch('http://127.0.0.1:8000/auth/student/', {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization':'JWT '+access
-            },
+            headers: {'Content-Type': 'application/json','Authorization':'JWT '+access},
         })
         .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
+            return response.json();
         })
         .then(data => {
-            form.first_name.value = data.first_name
-            form.last_name.value = data.last_name
-            form.email.value = data.email
-            form.age.value = data.age
-            form.province.value = data.province
-            document.getElementById("nameLoc").innerText = data.first_name
+            studentID = data[0].user.id
+            form.city.value = data[0].city
+            form.first_name.value = data[0].user.first_name
+            form.last_name.value = data[0].user.last_name
+            form.email.value = data[0].user.email
+            form.phone_number.value = data[0].user.phone_number
+            form.mother_phone_number.value = data[0].mother_phone_number
+            form.father_phone_number.value = data[0].father_phone_number
+            form.home_phone_number.value = data[0].home_phone_number
+            form.interets.value = data[0].interets
+            document.getElementById("nameLoc").innerText = data[0].user.first_name
         })
         .catch(error => {
             console.error('Error:', error);
@@ -176,8 +180,9 @@
         
         const formData = new FormData(form);
         const formDataObject = Object.fromEntries(formData.entries());
-        const formToSend = {email:formDataObject.email, first_name:formDataObject.first_name, last_name:formDataObject.last_name, }
-
+        const formToSend = {email:formDataObject.email, first_name:formDataObject.first_name, last_name:formDataObject.last_name}
+        const form2ToSend = {city:formDataObject.city, interets:formDataObject.interets, home_phone_number:formDataObject.home_phone_number, mother_phone_number:formDataObject.mother_phone_number, father_phone_number:formDataObject.father_phone_number}
+        
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -187,17 +192,31 @@
             body: JSON.stringify(formDataObject)
         })
         .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
+            return response.json();
         })
         .then(data => {
-
         })
         .catch(error => {
             console.error('Error:', error);
         })
+
+        fetch('http://127.0.0.1:8000/auth/student/'+studentID+'/', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+ access,
+            },
+            body: JSON.stringify(formDataObject)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        console.log(formDataObject.cv)
     })
 
     const passwordForm = document.getElementById('passwordForm');
@@ -230,7 +249,6 @@
             throw new Error('Network response was not ok.');
         })
         .then(data => {
-            
         })
         .catch(error => {
             console.error('Error:', error);

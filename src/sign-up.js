@@ -13,8 +13,6 @@ var finalForm = {
     username: undefined,
     email: undefined,
     password: undefined,
-    province: undefined,
-    intro_method: undefined
 }
 
 const hideFunc = (page, prev)=>{
@@ -52,14 +50,14 @@ page2.getElementsByTagName('button')[4].addEventListener('click', function() {se
 page3.getElementsByTagName('form')[0].addEventListener('submit', function(event) {
     event.preventDefault() 
     setCount(4) 
-    const formData = new FormData(page3.getElementsByTagName('form')[0]);
-    finalForm.province = Object.fromEntries(formData.entries()).province;
+    // const formData = new FormData(page3.getElementsByTagName('form')[0]);
+    // finalForm.province = Object.fromEntries(formData.entries()).province;
 })
 page4.getElementsByTagName('form')[0].addEventListener('submit', function(event) {
     event.preventDefault()
     setCount(5)
-    const formData = new FormData(page4.getElementsByTagName('form')[0]);
-    finalForm.intro_method = Object.fromEntries(formData.entries()).intro_method;
+    // const formData = new FormData(page4.getElementsByTagName('form')[0]);
+    // finalForm.intro_method = Object.fromEntries(formData.entries()).intro_method;
 })
 form.addEventListener('submit', function(event) {
     event.preventDefault()
