@@ -43,7 +43,7 @@
                     <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                     <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
                 </label>
-                <p class="text-lg font-bold">محمد انصاری </p>
+                <p id="name" class="text-lg font-bold"></p>
                 <p class="text-lg font-bold">امتیاز: 18</p>
             </div>
         </div>
@@ -54,10 +54,10 @@
                 <figure><img src="/media/course-road/ai1.png" class="w-44 mt-4" alt="Shoes" /></figure>
                 <div class="card-body">
                     <h2 class="card-title">تسک جدید</h2>
-                    <p>دیدن دوره هوش مصنوعی با پایتون</p>
-                    <p>دوره هوش مصنوعی با پایتون یک دوره بسیار عالی از آکادمی Udemy است که میتواند در پیشرفت شما بسیار موثر باشد. این دوره را با دقت ببینید و از آن یادداشت برداری کنید. انجام تمرین های روزانه را فراموش نکنید.</p>
+                    <p class="font-bold" id="title"></p>
+                    <p id="desc"></p>
                     <div class="card-actions gap-5">
-                        <button class="btn btn-neutral">لینک دوره</button>
+                        <a id="link" class="btn btn-neutral">لینک منابع</a>
                     </div>
                 </div>
             </div>
@@ -73,21 +73,9 @@
                 <div dir="ltr" class="grid grid-flow-col gap-5 text-center auto-cols-max">
                     <div class="flex flex-col">
                             <span class="countdown font-mono text-5xl">
-                                <span style="--value:15;"></span>
+                                <span id="days"></span>
                             </span>
                             روز
-                        </div> 
-                        <div class="flex flex-col">
-                            <span class="countdown font-mono text-5xl">
-                                <span style="--value:10;"></span>
-                            </span>
-                            ساعت
-                        </div> 
-                        <div class="flex flex-col">
-                            <span class="countdown font-mono text-5xl">
-                                <span id="counterElement" style="--value:24;"></span>
-                            </span>
-                            دقیقه
                         </div> 
                     </div>
                 </div>
@@ -95,4 +83,28 @@
         </div>
     </div>
 </body>
+<script type="module">
+    import {checkApi,getAccessCookie} from '../api.js'
+    checkApi()
+    const access = getAccessCookie()
+    
+    fetch('http://127.0.0.1:8000/course/new_task/', {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json','Authorization':'JWT '+access},
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            document.getElementById("name").innerText = data[0]
+            document.getElementById("title").innerText = data[1].title
+            document.getElementById("desc").innerText = data[1].description
+            document.getElementById("link").setAttribute('href',data[1].resources_links)
+            document.getElementById("days").setAttribute('style','--value:'+data[1].days_to_complete+';')
+        })
+        .catch(error => {
+            console.error('Error:', error);
+    });
+</script>
 </html>

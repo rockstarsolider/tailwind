@@ -43,7 +43,7 @@
                     <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                     <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
                 </label>
-                <p class="text-lg font-bold">محمد انصاری </p>
+                <p id="name" class="text-lg font-bold"></p>
                 <p class="text-lg font-bold">امتیاز: 18</p>
             </div>
         </div>
@@ -57,45 +57,14 @@
                     <thead  class="text-base">
                         <tr>
                         <th></th>
-                        <th>آواتار</th>
                         <th>نام</th>
+                        <th>نام خانوادگی</th>
                         <th>شماره تماس</th>
+                        <th>درجه</th>
                         </tr>
                     </thead>
-                    <tbody class="text-base">
-                        <!-- row 1 -->
-                        <tr>
-                            <th>1</th>
-                            <td><div class="avatar online placeholder">
-                                <div class="bg-neutral text-neutral-content rounded-full w-12">
-                                  <span class="text-xl">ر</span>
-                                </div>
-                            </div></td>
-                            <td>رضا</td>
-                            <td>09178881234</td>
-                        </tr>
-                        <!-- row 2 -->
-                        <tr>
-                            <th>2</th>
-                            <td><div class="avatar placeholder">
-                                <div class="bg-neutral text-neutral-content rounded-full w-12">
-                                  <span class="text-xl">ع</span>
-                                </div>
-                            </div></td>
-                            <td>علی</td>
-                        <td>09178881234</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr>
-                        <th>3</th>
-                            <td><div class="avatar online placeholder">
-                                <div class="bg-neutral text-neutral-content rounded-full w-12">
-                                  <span class="text-xl">م</span>
-                                </div>
-                            </div></td>
-                            <td>محمد</td>
-                            <td>09178881234</td>
-                        </tr>
+                    <tbody id="tbody" class="text-base">
+                        
                     </tbody>
                 </table>
             </div>
@@ -103,4 +72,49 @@
         </div>
     </div>
 </body>
+<script type="module">
+    import {checkApi,getAccessCookie} from '../api.js'
+    checkApi()
+    const access = getAccessCookie()
+
+    fetch('http://127.0.0.1:8000/course/group_mates/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+access
+            },
+        })
+        .then(response => response.json())
+        .then(data => renderTasks(data))
+        .catch(error => console.error('Error:', error));
+
+    function renderTasks(data){
+        document.getElementById("name").innerText = data[0]
+        const base ='<th>1</th>\
+                    <td><div class="avatar online placeholder">\
+                        <div class="bg-neutral text-neutral-content rounded-full w-12">\
+                        </div>\
+                    </div></td>\
+                    <td></td>\
+                    <td></td>\
+                    <td></td>'
+
+        const tasksDiv = document.getElementById('tbody')
+        var num = -1
+        for(const q of data){
+            num +=1
+            if(typeof(q)=='string'){continue}
+            
+            const div = document.createElement('tr')
+            div.innerHTML = base
+            div.getElementsByTagName('th')[0].innerText = num
+            div.getElementsByTagName('td')[0].innerText = q.user.first_name
+            div.getElementsByTagName('td')[1].innerText = q.user.last_name
+            div.getElementsByTagName('td')[2].innerText = q.home_phone_number
+            div.getElementsByTagName('td')[3].innerText = q.degree
+            
+            tasksDiv.append(div)
+        }
+    }
+</script>
 </html>

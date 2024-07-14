@@ -43,7 +43,7 @@
                     <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                     <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
                 </label>
-                <p class="text-lg font-bold">محمد انصاری </p>
+                <p id="name" class="text-lg font-bold"></p>
                 <p class="text-lg font-bold">امتیاز: 18</p>
             </div>
         </div>
@@ -53,8 +53,8 @@
             <div class="card w-96 bg-base-100 shadow-xl">
                 <div class="card-body gap-4">
                     <h2 class="card-title">زمان جلسات</h2>
-                    <p>جلسه فنی: یکشنبه ها ساعت 7</p>
-                    <p>جلسه متا: چهارشنبه ها ساعت 8</p>
+                    <p>جلسه فنی: <span id="tech"></span></p>
+                    <p>جلسه متا: <span id="meta"></span></p>
                     <p>با شرکت به موقع در جلسات میتوانید 5 امتیاز دریافت کنید.</p>
                 </div>
             </div>
@@ -66,33 +66,12 @@
                     <thead  class="text-base">
                         <tr>
                         <th></th>
-                        <th>جلسه</th>
                         <th>تاریخ</th>
-                        <th>حاضر/غایب</th>
+                        <th>تعداد حاضران</th>
                         </tr>
                     </thead>
-                    <tbody class="text-base">
-                        <!-- row 1 -->
-                        <tr>
-                            <th>1</th>
-                            <td>فنی</td>
-                            <td>14/1/1403</td>
-                            <td>غایب</td>
-                        </tr>
-                        <!-- row 2 -->
-                        <tr>
-                            <th>2</th>
-                            <td>متا</td>
-                            <td>14/1/1403</td>
-                        <td>حاضر</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr>
-                        <th>3</th>
-                            <td>فنی</td>
-                            <td>14/1/1403</td>
-                            <td>حاضر</td>
-                        </tr>
+                    <tbody id="tbody" class="text-base">
+                        
                     </tbody>
                 </table>
             </div>
@@ -100,4 +79,46 @@
         </div>
     </div>
 </body>
+<script type="module">
+    import {checkApi,getAccessCookie} from '../api.js'
+    checkApi()
+    const access = getAccessCookie()
+
+    fetch('http://127.0.0.1:8000/course/meeting_day/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'JWT '+access
+            },
+        })
+        .then(response => response.json())
+        .then(data => renderTasks(data))
+        .catch(error => console.error('Error:', error));
+
+    function renderTasks(data){
+        document.getElementById("name").innerText = data.name
+        document.getElementById("tech").innerText = data.tech
+        document.getElementById("meta").innerText = data.meta
+        const base ='<th>1</th>\
+                    <td><div class="avatar online placeholder">\
+                        <div class="bg-neutral text-neutral-content rounded-full w-12">\
+                        </div>\
+                    </div></td>\
+                    <td></td>'
+
+        const tasksDiv = document.getElementById('tbody')
+        var num = 0
+        for(const q of data.meetings){
+            num +=1
+            
+            const div = document.createElement('tr')
+            div.innerHTML = base
+            div.getElementsByTagName('th')[0].innerText = num
+            div.getElementsByTagName('td')[0].innerText = q.hold_on_date
+            div.getElementsByTagName('td')[1].innerText = q.guests_numbers
+            
+            tasksDiv.append(div)
+        }
+    }
+</script>
 </html>

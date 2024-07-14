@@ -43,7 +43,7 @@
                     <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                     <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
                 </label>
-                <p id="headname" class="text-lg font-bold"></p>
+                <p id="name" class="text-lg font-bold"></p>
                 <p class="text-lg font-bold">امتیاز: 18</p>
             </div>
         </div>
@@ -60,7 +60,7 @@
     import {checkApi,getAccessCookie} from '../api.js'
     checkApi()
     const access = getAccessCookie()
-    const url = 'http://127.0.0.1:8000/tasks/user_tasks/'
+    const url = 'http://127.0.0.1:8000/course/prev_tasks/'
     
     fetch(url, {
             method: 'GET',
@@ -80,9 +80,12 @@
                         <p class="card-title mb-4"></p> \
                         <p class="mb-2"></p> \
                         <p class="mb-4"></p> \
-                        <button class="btn btn-primary mb-2">لینک دوره</button> \
+                        <a class="btn btn-primary mb-2">لینک دوره</a> \
                     </div>'
+        document.getElementById("name").innerText = data[0]
         for(const q of data){
+            if(typeof(q)=='string'){continue}
+            console.log(q)
             const tasksDiv = document.getElementById('tasksdiv')
             
             const div = document.createElement('div')
@@ -90,9 +93,8 @@
             div.innerHTML = base
             div.getElementsByTagName('div')[0].innerHTML = q.title
             div.getElementsByTagName('div')[1].getElementsByTagName('p')[0].innerHTML = q.description
-            div.getElementsByTagName('div')[1].getElementsByTagName('p')[1].innerHTML = q.created_at
-            const completed = q.completed?'تکمیل شده':'تکمیل نشده'
-            div.getElementsByTagName('div')[1].getElementsByTagName('p')[2].innerHTML = completed
+            div.getElementsByTagName('div')[1].getElementsByTagName('p')[1].innerHTML = 'تکمیل شده'
+            div.getElementsByTagName('div')[1].getElementsByTagName('a')[0].setAttribute('href',q.resources_links)
             
             tasksDiv.append(div)
         }
