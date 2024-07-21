@@ -101,7 +101,7 @@
             document.getElementById("title").innerText = data[1].title
             document.getElementById("desc").innerText = data[1].description
             document.getElementById("link").setAttribute('href',data[1].resources_links)
-            document.getElementById("days").setAttribute('style','--value:'+data[1].days_to_complete+';')
+            document.getElementById("days").setAttribute('style','--value:'+data[2]+';')
         })
         .catch(error => {
             console.error('Error:', error);
