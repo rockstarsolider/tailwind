@@ -7,6 +7,7 @@
     <title>درس ها</title>
 </head>
 <body class="font-[yekan] flex flex-col justify-center items-center " dir="rtl">
+    
     <div dir="ltr" class="md:px-28 lg:px-[10%] shadow-lg w-[100%] p-3 h-16 z-30 flex justify-between items-center">
         <a href="../index.html"><img src="/media/logo.png" class="w-32"/></a>
         <div class="justify-center items-center hidden md:flex gap-10">
@@ -21,31 +22,75 @@
     </div>
 
     <div class="flex md:justify-between justify-center items-start md:items-center flex-col md:flex-row w-[100%] my-12 px-14 lg:px-[20%] gap-12">
-        <div class="border-r pr-5 border-gray-300">
-            <div onclick="my_modal_3.showModal()" class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download.png"/><p>تحلیل داده</p></div>
-            <div onclick="my_modal_3.showModal()" class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download.png"/><p>دسته بندی داده</p></div>
-            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
-            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
-            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
-            <div class="flex flex-col items-center justify-center gap-3 hover:cursor-pointer"><img src="/media/dynamic/download (1).png"/><p>استفاده از داده</p></div>
-            <dialog id="my_modal_3" class="modal">
-                <div class="modal-box">
-                  <h3 class="text-lg font-bold">تحلیل داده</h3>
-                  <p class="py-4">در این درس نحوه تحلیل کردن داده را یاد می گیرید</p>
-                  <a href="./course.html" class="btn btn-neutral">شروع درس</a>
-                </div>
-                <form method="dialog" class="modal-backdrop">
-                  <button>close</button>
-                </form>
-            </dialog>
+        <div id="faze_div" class="border-r pr-5 border-gray-300">      
         </div>
         <div class="border border-gray-300 rounded-lg p-10 md:fixed top-60 left-60 flex flex-col items-center">
             <img src="/media/dynamic/computer-science-essentials-p1VhGo.png" width="80px"/>
-            <h3 class="text-lg font-bold p-10">علوم کامپیوتر</h3>
-            <p class="py-4">در این درس مهارت های خود را در قسمت داده بالا می برید</p>
+            <h3 id="title" class="text-lg font-bold p-10">علوم کامپیوتر</h3>
+            <p id="desc" class="py-4">در این درس مهارت های خود را در قسمت داده بالا می برید</p>
         </div>
     </div>
 
-    <script src="./course-road.js"></script>
+    <script type="module">
+        import {checkApi,getAccessCookie} from '../api.js'
+        checkApi()
+        const access = getAccessCookie()
+
+        const url = 'http://127.0.0.1:8000/task/fazes/'
+    
+        fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':'JWT '+access
+                },
+            })
+            .then(response => response.json())
+            .then(data => renderTasks(data))
+            .catch(error => console.error('Error:', error));
+
+        function renderTasks(data){
+            const base ='<img src="/media/dynamic/download.png"/><p>تحلیل داده</p>'
+            const dialogBase = '<div class="modal-box">\
+                    <h3 class="text-lg font-bold">تحلیل داده</h3>\
+                    <p id="" class="py-4">در این درس نحوه تحلیل کردن داده را یاد می گیرید</p>\
+                    <button class="btn btn-neutral">شروع درس</button>\
+                    </div>\
+                    <form method="dialog" class="modal-backdrop">\
+                    <button>close</button>\
+                    </form>'
+            document.getElementById("title").innerText = data[0].name
+            document.getElementById("desc").innerText = data[0].description
+
+            var count = 0
+            for(const q of data[1]){
+                count +=1
+                console.log(q)
+                const fazeDiv = document.getElementById('faze_div')
+                
+                const div = document.createElement('div')
+                div.className = 'flex flex-col items-center justify-center gap-3 hover:cursor-pointer'
+                div.innerHTML = base
+                div.getElementsByTagName('p')[0].innerHTML = q.name
+                div.setAttribute('onclick',`${'d'+count}.showModal()`)
+                
+                const dialog = document.createElement('dialog')
+                dialog.className = 'modal'
+                dialog.id = 'd'+count
+                dialog.innerHTML = dialogBase
+                dialog.getElementsByTagName('div')[0].getElementsByTagName('h3')[0].innerHTML = q.name
+                dialog.getElementsByTagName('div')[0].getElementsByTagName('p')[0].innerHTML = q.description
+                const handler = ()=>{
+                    window.location.replace('course.html')
+                    document.cookie = "fazeId="+q.id;
+                }
+                const button = dialog.getElementsByTagName('div')[0].getElementsByTagName('button')[0]
+                button.onclick = handler
+                
+                fazeDiv.append(div)
+                fazeDiv.append(dialog)
+            }
+        }
+    </script>
 </body>
 </html>
